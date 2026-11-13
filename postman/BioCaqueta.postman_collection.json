@@ -1,0 +1,267 @@
+{
+  "info": {
+    "_postman_id": "21300d6e-0da2-4b11-8a67-b1a9f2fc9864",
+    "name": "BioCaqueta - API Avistamientos",
+    "description": "Colección para validar la API REST /api/avistamientos del proyecto BioCaquetá (Grupo 10). Ejecute primero el POST: guarda el _id creado en la variable {{id}} para las demás peticiones.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:3000",
+      "type": "string"
+    },
+    {
+      "key": "id",
+      "value": "",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "POST - Crear avistamiento",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 201 Created', () => pm.response.to.have.status(201));",
+              "const body = pm.response.json();",
+              "pm.test('Devuelve el documento con _id', () => pm.expect(body).to.have.property('_id'));",
+              "pm.test('Estado por defecto aplicado', () => pm.expect(body.estadoConservacion).to.be.a('string'));",
+              "pm.collectionVariables.set('id', body._id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombreComun\": \"Danta amazónica\",\n  \"nombreCientifico\": \"Tapirus terrestris\",\n  \"categoria\": \"Mamífero\",\n  \"zona\": \"El Caraño\",\n  \"estadoConservacion\": \"Vulnerable\",\n  \"investigador\": \"Grupo 10\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/avistamientos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "avistamientos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Listar avistamientos",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', () => pm.response.to.have.status(200));",
+              "const body = pm.response.json();",
+              "pm.test('Devuelve un arreglo', () => pm.expect(body).to.be.an('array'));",
+              "pm.test('Ordenado del más reciente al más antiguo', () => {",
+              "  for (let i = 1; i < body.length; i++) {",
+              "    pm.expect(new Date(body[i - 1].fechaRegistro) >= new Date(body[i].fechaRegistro)).to.be.true;",
+              "  }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/avistamientos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "avistamientos"
+          ]
+        },
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "GET - Filtrar por categoría (Ave)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', () => pm.response.to.have.status(200));",
+              "pm.test('Todos son de categoría Ave', () => {",
+              "  pm.response.json().forEach(a => pm.expect(a.categoria).to.eql('Ave'));",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/api/avistamientos?categoria=Ave",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "avistamientos"
+          ],
+          "query": [
+            {
+              "key": "categoria",
+              "value": "Ave"
+            }
+          ]
+        },
+        "header": []
+      },
+      "response": []
+    },
+    {
+      "name": "POST - Validación (datos incompletos → 400)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 400 Bad Request', () => pm.response.to.have.status(400));",
+              "pm.test('Incluye mensaje de error', () => pm.expect(pm.response.json()).to.have.property('error'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"nombreComun\": \"Guacamaya bandera\",\n  \"categoria\": \"Dinosaurio\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/avistamientos",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "avistamientos"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "PUT - Actualizar zona / estado",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', () => pm.response.to.have.status(200));",
+              "const body = pm.response.json();",
+              "pm.test('Campos actualizados', () => {",
+              "  pm.expect(body.zona).to.eql('Río Hacha');",
+              "  pm.expect(body.estadoConservacion).to.eql('En peligro');",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"zona\": \"Río Hacha\",\n  \"estadoConservacion\": \"En peligro\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/avistamientos/{{id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "avistamientos",
+            "{{id}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "DELETE - Eliminar avistamiento",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status 200', () => pm.response.to.have.status(200));",
+              "pm.test('Confirma eliminación', () => pm.expect(pm.response.json().mensaje).to.eql('Avistamiento eliminado'));"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/api/avistamientos/{{id}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "avistamientos",
+            "{{id}}"
+          ]
+        },
+        "header": []
+      },
+      "response": []
+    }
+  ]
+}
