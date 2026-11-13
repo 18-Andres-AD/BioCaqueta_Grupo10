@@ -15,7 +15,13 @@
 </header>
 
 <main class="container pb-4 position-relative">
-  {{> alerta}}
+  {{#if error}}
+    <div class="alert alerta-bio alert-dismissible fade show d-flex align-items-center gap-2 mb-4" role="alert">
+      <i class="bi bi-exclamation-circle-fill fs-5"></i>
+      <div>{{error}}</div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+  {{/if}}
 
   <section class="card-bio p-4 p-md-5 mb-5 aparecer retraso-1">
     <div class="card-titulo mb-4">
@@ -57,7 +63,11 @@
           <input type="text" class="form-control" id="zona" name="zona" placeholder="Río Hacha" list="zonas" required>
           <label for="zona"><i class="bi bi-geo-alt me-1"></i> Zona *</label>
         </div>
-        {{> zonas}}
+        <datalist id="zonas">
+          {{#each zonas}}
+            <option value="{{this}}">
+          {{/each}}
+        </datalist>
       </div>
       <div class="col-md-6">
         <div class="form-floating">
@@ -67,11 +77,22 @@
       </div>
 
       <div class="col-12">
-        {{> estados seleccionado=estadoPorDefecto}}
+        <div class="campo-titulo">Estado de conservación</div>
+        <div class="estados">
+          {{#each estados}}
+            <div class="estado {{claseEstado this}}">
+              <input type="radio" name="estadoConservacion" id="est-{{@index}}" value="{{this}}" {{#if @first}}checked{{/if}}>
+              <label for="est-{{@index}}"><i class="bi {{iconoEstado this}}"></i> {{this}}</label>
+            </div>
+          {{/each}}
+        </div>
       </div>
 
       <div class="col-12 d-flex justify-content-end">
-        {{> boton-enviar icono="bi-cloud-arrow-up" texto="Guardar avistamiento"}}
+        <button type="submit" class="btn btn-bio px-4">
+          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          <span class="texto-btn"><i class="bi bi-cloud-arrow-up me-2"></i>Guardar avistamiento</span>
+        </button>
       </div>
     </form>
   </section>

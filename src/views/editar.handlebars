@@ -13,7 +13,13 @@
 </header>
 
 <main class="container pb-4 position-relative">
-  {{> alerta clase="contenedor-estrecho mx-auto"}}
+  {{#if error}}
+    <div class="alert alerta-bio alert-dismissible fade show d-flex align-items-center gap-2 mb-4 contenedor-estrecho mx-auto" role="alert">
+      <i class="bi bi-exclamation-circle-fill fs-5"></i>
+      <div>{{error}}</div>
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+    </div>
+  {{/if}}
 
   <section class="card-bio contenedor-estrecho p-4 p-md-5 mx-auto aparecer retraso-1">
 
@@ -55,16 +61,31 @@
           <input type="text" class="form-control" id="zona" name="zona" value="{{avistamiento.zona}}" placeholder="Zona" list="zonas" required>
           <label for="zona"><i class="bi bi-geo-alt me-1"></i> Zona *</label>
         </div>
-        {{> zonas}}
+        <datalist id="zonas">
+          {{#each zonas}}
+            <option value="{{this}}">
+          {{/each}}
+        </datalist>
       </div>
 
       <div class="col-12">
-        {{> estados seleccionado=avistamiento.estadoConservacion}}
+        <div class="campo-titulo">Estado de conservación</div>
+        <div class="estados">
+          {{#each estados}}
+            <div class="estado {{claseEstado this}}">
+              <input type="radio" name="estadoConservacion" id="est-{{@index}}" value="{{this}}" {{#if (eq this ../avistamiento.estadoConservacion)}}checked{{/if}}>
+              <label for="est-{{@index}}"><i class="bi {{iconoEstado this}}"></i> {{this}}</label>
+            </div>
+          {{/each}}
+        </div>
       </div>
 
       <div class="col-12 d-flex justify-content-end gap-2">
         <a href="/" class="btn btn-outline-secondary btn-suave px-4 d-inline-flex align-items-center">Cancelar</a>
-        {{> boton-enviar icono="bi-check2-circle" texto="Guardar cambios"}}
+        <button type="submit" class="btn btn-bio px-4">
+          <span class="spinner-border spinner-border-sm me-2" aria-hidden="true"></span>
+          <span class="texto-btn"><i class="bi bi-check2-circle me-2"></i>Guardar cambios</span>
+        </button>
       </div>
     </form>
   </section>

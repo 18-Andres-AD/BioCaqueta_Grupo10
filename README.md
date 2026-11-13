@@ -53,7 +53,6 @@ src/
 │   └── js/main.js
 └── views/
     ├── layouts/main.handlebars
-    ├── partials/           # navbar, footer, alerta, estados, zonas, botón
     ├── home.handlebars
     └── editar.handlebars
 ```
