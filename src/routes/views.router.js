@@ -6,7 +6,7 @@ const ZONAS_SUGERIDAS = ['Río Hacha', 'El Caraño', 'Serranía de Chiribiquete'
 
 const router = Router();
 
-// Datos comunes a todas las vistas
+
 router.use((req, res, next) => {
   res.locals.categorias = CATEGORIAS;
   res.locals.estados = ESTADOS;
@@ -15,14 +15,13 @@ router.use((req, res, next) => {
   next();
 });
 
-// GET /  -> listado + formulario de registro
+// listado y formulario de registro
 router.get('/', async (req, res) => {
   const categoriaActual = req.query.categoria || '';
   const vista = { titulo: 'Avistamientos', categoriaActual, estadoPorDefecto: ESTADOS[0] };
 
   try {
     const filtro = categoriaActual ? { categoria: categoriaActual } : {};
-    // .lean() devuelve objetos planos que Handlebars puede leer
     const avistamientos = await Avistamiento.find(filtro).sort({ fechaRegistro: -1 }).lean();
     res.render('home', { ...vista, avistamientos });
   } catch (error) {
@@ -31,7 +30,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /editar/:id  -> formulario precargado
+// formulario precargado
 router.get('/editar/:id', async (req, res) => {
   try {
     const avistamiento = await Avistamiento.findById(req.params.id).lean();

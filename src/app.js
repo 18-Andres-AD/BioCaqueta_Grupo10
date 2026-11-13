@@ -10,8 +10,7 @@ const viewsRouter = require('./routes/views.router');
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Helpers de Handlebars. Íconos por CDN: Material Design Icons (https://pictogrammers.com/library/mdi)
-// y Font Awesome (https://fontawesome.com/icons) para la rana, que MDI no tiene.
+
 const CATEGORIAS_UI = {
   Mamífero: { clase: 'mamifero', icono: 'mdi mdi-paw' },
   Ave: { clase: 'ave', icono: 'mdi mdi-bird' },
@@ -40,7 +39,7 @@ const helpers = {
   iconoCategoria: (categoria) => CATEGORIAS_UI[categoria]?.icono || 'mdi mdi-magnify',
 };
 
-// Motor de plantillas
+
 app.engine(
   'handlebars',
   engine({
@@ -52,19 +51,19 @@ app.engine(
 app.set('view engine', 'handlebars');
 app.set('views', path.join(__dirname, 'views'));
 
-// Middlewares
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static(path.join(__dirname, 'public'))); // CSS, JS e imágenes
+app.use(express.static(path.join(__dirname, 'public')));
 
-// Rutas
+
 app.use('/api/avistamientos', apiRouter);
 app.use('/', viewsRouter);
 
-// 404
+
 app.use((req, res) => res.status(404).json({ error: 'Ruta no encontrada' }));
 
-// Manejador de errores no controlados (p. ej. JSON mal formado)
+
 app.use((err, req, res, next) => {
   const status = err.status || err.statusCode || 500;
   if (status >= 500) console.error(err);
