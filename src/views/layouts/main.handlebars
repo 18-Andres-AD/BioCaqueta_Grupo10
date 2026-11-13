@@ -4,34 +4,220 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>BioCaquetá | {{titulo}}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --selva-900: #0b2e1f;
+      --selva-800: #12402c;
+      --selva-700: #17573a;
+      --selva-600: #1f7a4d;
+      --selva-500: #2fa36b;
+      --selva-100: #e4f4ea;
+      --rio: #2b8fb3;
+      --tierra: #c9853a;
+      --texto: #16261d;
+      --gris: #66776d;
+      --borde: #dbe7df;
+      --fondo: #f3f7f4;
+      --radio: 18px;
+      --sombra: 0 10px 30px -12px rgba(11, 46, 31, .25);
+    }
+    body {
+      font-family: 'Outfit', system-ui, -apple-system, 'Segoe UI', sans-serif;
+      color: var(--texto);
+      background:
+        radial-gradient(1200px 500px at 100% -10%, rgba(47,163,107,.10), transparent 60%),
+        radial-gradient(900px 400px at -10% 10%, rgba(43,143,179,.08), transparent 60%),
+        var(--fondo);
+      min-height: 100vh;
+    }
+
+    /* ---------- Navbar ---------- */
+    .nav-bio {
+      background: rgba(11, 46, 31, .92);
+      backdrop-filter: blur(10px);
+      position: sticky; top: 0; z-index: 50;
+    }
+    .nav-bio .navbar-brand { font-weight: 800; letter-spacing: -.02em; font-size: 1.35rem; }
+    .nav-bio .navbar-brand .hoja { display: inline-block; animation: balanceo 3.5s ease-in-out infinite; transform-origin: bottom center; }
+    .nav-bio .nav-link { color: rgba(255,255,255,.8); border-radius: 999px; padding: .4rem .9rem !important; transition: background .2s, color .2s; }
+    .nav-bio .nav-link:hover { color: #fff; background: rgba(255,255,255,.12); }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      position: relative; overflow: hidden;
+      background: linear-gradient(135deg, var(--selva-800) 0%, var(--selva-600) 55%, var(--rio) 130%);
+      color: #fff; border-radius: 0 0 32px 32px;
+      padding: 3rem 0 6.5rem;
+      margin-bottom: -4.5rem;
+    }
+    .hero h1 { font-weight: 800; letter-spacing: -.03em; font-size: clamp(1.9rem, 4vw, 2.8rem); }
+    .hero p { color: rgba(255,255,255,.82); max-width: 560px; font-size: 1.08rem; }
+    .hero .flotante { position: absolute; font-size: 2.4rem; opacity: .22; animation: flotar 9s ease-in-out infinite; user-select: none; }
+    .hero .f1 { top: 18%; right: 8%; }
+    .hero .f2 { top: 55%; right: 22%; font-size: 1.8rem; animation-delay: -3s; }
+    .hero .f3 { top: 12%; right: 34%; font-size: 1.5rem; animation-delay: -6s; }
+    .hero .f4 { bottom: 22%; right: 4%; font-size: 3rem; animation-delay: -1.5s; }
+    .stat-pill { display: inline-flex; align-items: center; gap: .45rem; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.2); padding: .4rem .9rem; border-radius: 999px; font-weight: 500; font-size: .95rem; }
+
+    /* ---------- Tarjetas ---------- */
+    .card-bio {
+      background: #fff; border: 1px solid var(--borde); border-radius: var(--radio);
+      box-shadow: var(--sombra);
+    }
+    .card-bio .card-titulo { display: flex; align-items: center; gap: .75rem; }
+    .card-bio .card-titulo .icono {
+      width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center;
+      background: var(--selva-100); color: var(--selva-700); font-size: 1.3rem;
+    }
+    .card-bio h2 { font-weight: 700; letter-spacing: -.02em; }
+
+    /* ---------- Campos ---------- */
+    .form-floating > .form-control, .form-floating > .form-select { border-radius: 12px; border-color: var(--borde); }
+    .form-control, .form-select { transition: border-color .2s, box-shadow .2s, transform .2s; }
+    .form-control:focus, .form-select:focus {
+      border-color: var(--selva-500);
+      box-shadow: 0 0 0 .25rem rgba(47,163,107,.18);
+    }
+    .campo-titulo { font-weight: 600; font-size: .92rem; margin-bottom: .55rem; color: var(--texto); }
+    .campo-titulo .req { color: var(--selva-500); }
+
+    /* Selector de categoría tipo "chips" */
+    .chips { display: flex; flex-wrap: wrap; gap: .6rem; }
+    .chip input { position: absolute; opacity: 0; pointer-events: none; }
+    .chip label {
+      display: inline-flex; align-items: center; gap: .5rem; cursor: pointer; user-select: none;
+      padding: .6rem 1.05rem; border-radius: 999px; border: 1.5px solid var(--borde); background: #fff;
+      font-weight: 500; transition: all .22s cubic-bezier(.2,.8,.2,1);
+    }
+    .chip label .emoji { font-size: 1.2rem; transition: transform .3s cubic-bezier(.3,1.6,.5,1); }
+    .chip label:hover { border-color: var(--selva-500); transform: translateY(-2px); box-shadow: 0 6px 14px -8px rgba(31,122,77,.5); }
+    .chip label:hover .emoji { transform: scale(1.2) rotate(-8deg); }
+    .chip input:checked + label { background: var(--selva-600); border-color: var(--selva-600); color: #fff; box-shadow: 0 8px 18px -8px rgba(31,122,77,.7); }
+    .chip input:checked + label .emoji { transform: scale(1.15); }
+    .chip input:focus-visible + label { outline: 3px solid rgba(47,163,107,.4); outline-offset: 2px; }
+
+    /* Estado de conservación segmentado */
+    .estados { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
+    .estado input { position: absolute; opacity: 0; pointer-events: none; }
+    .estado label {
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .2rem; height: 100%;
+      text-align: center; cursor: pointer; padding: .7rem .5rem; border-radius: 14px;
+      border: 1.5px solid var(--borde); background: #fff; font-weight: 500; font-size: .9rem;
+      transition: all .22s ease;
+    }
+    .estado label i { font-size: 1.25rem; }
+    .estado.success label i { color: #198754; }
+    .estado.warning label i { color: #d39200; }
+    .estado.danger label i { color: #dc3545; }
+    .estado label:hover { transform: translateY(-2px); }
+    .estado.success input:checked + label { background: #e6f5ec; border-color: #198754; color: #0f5132; }
+    .estado.warning input:checked + label { background: #fff6dd; border-color: #e0a800; color: #7a5600; }
+    .estado.danger input:checked + label { background: #fde8ea; border-color: #dc3545; color: #842029; }
+    .estado input:checked + label i { animation: latido .5s ease; }
+    .estado input:focus-visible + label { outline: 3px solid rgba(47,163,107,.4); outline-offset: 2px; }
+
+    /* ---------- Botones ---------- */
+    .btn-bio {
+      position: relative; overflow: hidden; border: 0; border-radius: 14px; color: #fff; font-weight: 600;
+      padding: .9rem 1.5rem; background: linear-gradient(135deg, var(--selva-600), var(--selva-500));
+      box-shadow: 0 10px 22px -10px rgba(31,122,77,.8); transition: transform .2s, box-shadow .2s, filter .2s;
+    }
+    .btn-bio:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 14px 26px -10px rgba(31,122,77,.9); filter: brightness(1.05); }
+    .btn-bio:active { transform: translateY(0); }
+    .btn-bio::after {
+      content: ''; position: absolute; inset: 0; transform: translateX(-120%);
+      background: linear-gradient(110deg, transparent 30%, rgba(255,255,255,.35) 50%, transparent 70%);
+      transition: transform .7s ease;
+    }
+    .btn-bio:hover::after { transform: translateX(120%); }
+    .btn-bio .spinner-border { display: none; }
+    .btn-bio.cargando .spinner-border { display: inline-block; }
+    .btn-bio.cargando .texto-btn { opacity: .8; }
+    .btn-suave { border-radius: 12px; font-weight: 500; }
+
+    /* ---------- Tabla ---------- */
+    .tabla-bio { border-collapse: separate; border-spacing: 0 .55rem; }
+    .tabla-bio thead th { border: 0; color: var(--gris); font-size: .78rem; text-transform: uppercase; letter-spacing: .06em; font-weight: 600; padding: .25rem 1rem; }
+    .tabla-bio tbody tr { background: #fff; box-shadow: 0 2px 10px -6px rgba(11,46,31,.25); transition: transform .2s, box-shadow .2s; }
+    .tabla-bio tbody tr:hover { transform: translateY(-2px) scale(1.003); box-shadow: 0 12px 24px -14px rgba(11,46,31,.45); }
+    .tabla-bio tbody td { border: 0; padding: 1rem; vertical-align: middle; }
+    .tabla-bio tbody td:first-child { border-radius: 14px 0 0 14px; }
+    .tabla-bio tbody td:last-child { border-radius: 0 14px 14px 0; }
+    .avatar-especie { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: var(--selva-100); font-size: 1.35rem; flex-shrink: 0; }
+    .badge-estado { padding: .45em .8em; border-radius: 999px; font-weight: 600; font-size: .78rem; }
+    .btn-accion { width: 38px; height: 38px; border-radius: 12px; display: inline-grid; place-items: center; padding: 0; transition: transform .2s; }
+    .btn-accion:hover { transform: translateY(-2px) scale(1.05); }
+
+    .filtro-select { border-radius: 999px; padding-left: 1rem; min-width: 210px; border-color: var(--borde); }
+
+    .vacio { text-align: center; padding: 3rem 1rem; color: var(--gris); }
+    .vacio .emoji { font-size: 3rem; display: inline-block; animation: flotar 4s ease-in-out infinite; }
+
+    /* ---------- Alertas / footer ---------- */
+    .alerta-bio { border: 0; border-radius: 14px; background: #fde8ea; color: #842029; box-shadow: var(--sombra); animation: sacudir .5s ease; }
+    footer { color: var(--gris); }
+
+    /* ---------- Animaciones ---------- */
+    .aparecer { opacity: 0; animation: aparecer .7s cubic-bezier(.2,.8,.2,1) forwards; }
+    .retraso-1 { animation-delay: .08s; } .retraso-2 { animation-delay: .18s; } .retraso-3 { animation-delay: .28s; }
+    .fila-anim { opacity: 0; animation: aparecer .55s cubic-bezier(.2,.8,.2,1) forwards; }
+
+    /* Se usa "translate" (no "transform") para no bloquear los efectos hover */
+    @keyframes aparecer { from { opacity: 0; translate: 0 18px; } to { opacity: 1; translate: 0 0; } }
+    @keyframes flotar { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-14px) rotate(6deg); } }
+    @keyframes balanceo { 0%,100% { transform: rotate(-8deg); } 50% { transform: rotate(8deg); } }
+    @keyframes latido { 0% { transform: scale(1); } 40% { transform: scale(1.35); } 100% { transform: scale(1); } }
+    @keyframes sacudir { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-6px); } 40%,80% { transform: translateX(6px); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .aparecer, .fila-anim { opacity: 1; }
+    }
+    @media (max-width: 576px) {
+      .estados { grid-template-columns: 1fr; }
+      .hero { padding-top: 2rem; }
+    }
+  </style>
 </head>
-<body class="bg-light">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-success mb-4">
+<body>
+  <nav class="navbar navbar-expand navbar-dark nav-bio">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="/">🌿 BioCaquetá</a>
-      <div class="navbar-nav">
-        <a class="nav-link" href="/">Avistamientos</a>
-        <a class="nav-link" href="/api/avistamientos" target="_blank">API (JSON)</a>
+      <a class="navbar-brand" href="/"><span class="hoja">🌿</span> BioCaquetá</a>
+      <div class="navbar-nav ms-auto gap-1">
+        <a class="nav-link" href="/"><i class="bi bi-binoculars me-1"></i><span class="d-none d-sm-inline">Avistamientos</span></a>
+        <a class="nav-link" href="/api/avistamientos" target="_blank"><i class="bi bi-braces me-1"></i><span class="d-none d-sm-inline">API (JSON)</span></a>
       </div>
     </div>
   </nav>
 
-  <main class="container pb-5">
-    {{#if error}}
-      <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{error}}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
-      </div>
-    {{/if}}
+  {{{body}}}
 
-    {{{body}}}
-  </main>
-
-  <footer class="text-center text-muted small py-3 border-top">
-    Universidad de la Amazonia · Ingeniería de Sistemas · Florencia, Caquetá
+  <footer class="text-center small py-4 mt-4">
+    <i class="bi bi-tree me-1"></i> Universidad de la Amazonia · Ingeniería de Sistemas · Florencia, Caquetá
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    // Si el usuario vuelve con el botón "Atrás", reactivar los botones
+    window.addEventListener('pageshow', () => {
+      document.querySelectorAll('.btn-bio.cargando').forEach((b) => { b.classList.remove('cargando'); b.removeAttribute('disabled'); });
+    });
+
+    // Muestra un indicador de carga al enviar cualquier formulario con botón .btn-bio
+    document.querySelectorAll('form').forEach((form) => {
+      form.addEventListener('submit', () => {
+        const btn = form.querySelector('.btn-bio');
+        if (btn && form.checkValidity()) {
+          btn.classList.add('cargando');
+          btn.setAttribute('disabled', 'disabled');
+        }
+      });
+    });
+  </script>
 </body>
 </html>

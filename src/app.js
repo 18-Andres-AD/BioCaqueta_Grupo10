@@ -21,6 +21,8 @@ app.engine(
         new Date(fecha).toLocaleString('es-CO', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'America/Bogota' }),
       claseEstado: (estado) =>
         ({ 'Preocupación menor': 'success', Vulnerable: 'warning', 'En peligro': 'danger' })[estado] || 'secondary',
+      iconoCategoria: (categoria) =>
+        ({ Mamífero: '🐾', Ave: '🦜', Reptil: '🦎', Anfibio: '🐸', Flora: '🌿' })[categoria] || '🔎',
     },
   })
 );
@@ -40,9 +42,9 @@ app.use((req, res) => res.status(404).json({ error: 'Ruta no encontrada' }));
 
 connectDB()
   .then(() => {
-    app.listen(PORT, () => console.log(`🚀 Servidor en http://localhost:${PORT}`));
+    app.listen(PORT, () => console.log(`Servidor en http://localhost:${PORT}`));
   })
   .catch((err) => {
-    console.error('✖ Error al conectar con MongoDB Atlas:', err.message);
+    console.error('Error al conectar con MongoDB Atlas:', err.message);
     process.exit(1);
   });
