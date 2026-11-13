@@ -4,7 +4,6 @@ const Avistamiento = require('../models/Avistamiento');
 
 const router = Router();
 
-// ¿La petición viene de un formulario HTML (Handlebars)?
 const esFormulario = (req) =>
   req.headers['content-type']?.includes('application/x-www-form-urlencoded');
 
