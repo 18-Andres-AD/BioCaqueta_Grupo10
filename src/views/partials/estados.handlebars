@@ -1,0 +1,10 @@
+{{!-- Selector de estado de conservación. Parámetro: seleccionado --}}
+<div class="campo-titulo">Estado de conservación</div>
+<div class="estados">
+  {{#each estados}}
+    <div class="estado {{claseEstado this}}">
+      <input type="radio" name="estadoConservacion" id="est-{{@index}}" value="{{this}}" {{#if (eq this ../seleccionado)}}checked{{/if}}>
+      <label for="est-{{@index}}"><i class="bi {{iconoEstado this}}"></i> {{this}}</label>
+    </div>
+  {{/each}}
+</div>

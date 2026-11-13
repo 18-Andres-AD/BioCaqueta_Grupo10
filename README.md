@@ -37,6 +37,31 @@ La aplicación usa siempre la base de datos `biocaqueta_db`, colección `avistam
 
 Códigos: `200` OK · `201` creado · `400` validación / ID inválido · `404` no encontrado · `500` error interno.
 
+## Estructura
+
+```
+src/
+├── app.js                  # Configuración de Express, Handlebars y middlewares
+├── config/db.js            # Conexión a MongoDB Atlas (Mongoose)
+├── models/Avistamiento.js  # Esquema y validaciones
+├── routes/
+│   ├── api.router.js       # API REST (JSON + formularios)
+│   └── views.router.js     # Rutas que renderizan vistas
+├── helpers/                # Helpers de Handlebars (fechas, estados, íconos SVG)
+├── public/                 # Archivos estáticos servidos por express.static
+│   ├── css/styles.css
+│   └── js/main.js
+└── views/
+    ├── layouts/main.handlebars
+    ├── partials/           # navbar, footer, alerta, estados, zonas, botón
+    ├── home.handlebars
+    └── editar.handlebars
+```
+
+Las plantillas no contienen CSS ni JavaScript en línea: los estilos están en `public/css/styles.css`
+y el comportamiento (confirmar eliminación, filtro automático, spinner) en `public/js/main.js`
+mediante atributos `data-*`.
+
 ## Vistas
 
 - `GET /` — formulario de registro + tabla de avistamientos (con filtro por categoría, Editar y Eliminar).
