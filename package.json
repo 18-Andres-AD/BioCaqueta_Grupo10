@@ -1,0 +1,23 @@
+{
+  "name": "biocaqueta-app",
+  "version": "1.0.0",
+  "description": "Sistema de Monitoreo de Biodiversidad y Avistamientos del Piedemonte Amazónico (BioCaquetá)",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "node --watch src/app.js"
+  },
+  "keywords": [
+    "express",
+    "mongoose",
+    "handlebars",
+    "mongodb-atlas"
+  ],
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^18.0.10",
+    "express": "^5.3.0",
+    "express-handlebars": "^9.0.5",
+    "mongoose": "^9.12.1"
+  }
+}

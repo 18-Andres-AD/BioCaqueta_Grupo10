@@ -1,0 +1,47 @@
+<div class="card shadow-sm mx-auto" style="max-width: 720px;">
+  <div class="card-header bg-white">
+    <h2 class="h5 mb-0">Editar avistamiento</h2>
+  </div>
+  <div class="card-body">
+    <form action="/api/avistamientos/update/{{avistamiento._id}}" method="POST" class="row g-3">
+      <!-- Campos informativos (solo lectura) -->
+      <div class="col-md-6">
+        <label class="form-label">Nombre común</label>
+        <input type="text" class="form-control" value="{{avistamiento.nombreComun}}" disabled>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Nombre científico</label>
+        <input type="text" class="form-control fst-italic" value="{{avistamiento.nombreCientifico}}" disabled>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Categoría</label>
+        <input type="text" class="form-control" value="{{avistamiento.categoria}}" disabled>
+      </div>
+      <div class="col-md-6">
+        <label class="form-label">Investigador</label>
+        <input type="text" class="form-control" value="{{avistamiento.investigador}}" disabled>
+      </div>
+
+      <hr class="my-2">
+
+      <!-- Campos editables (RF-02.3: zona y estado de conservación) -->
+      <div class="col-md-6">
+        <label for="zona" class="form-label">Zona *</label>
+        <input type="text" class="form-control" id="zona" name="zona" value="{{avistamiento.zona}}" required>
+      </div>
+      <div class="col-md-6">
+        <label for="estadoConservacion" class="form-label">Estado de conservación</label>
+        <select class="form-select" id="estadoConservacion" name="estadoConservacion">
+          {{#each estados}}
+            <option value="{{this}}" {{#if (eq this ../avistamiento.estadoConservacion)}}selected{{/if}}>{{this}}</option>
+          {{/each}}
+        </select>
+      </div>
+
+      <div class="col-12 d-flex justify-content-end gap-2">
+        <a href="/" class="btn btn-outline-secondary">Cancelar</a>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </form>
+  </div>
+</div>
