@@ -36,7 +36,6 @@ const camposActualizables = ({ estadoConservacion, zona }) => {
   return datos;
 };
 
-// Valida que :id sea un ObjectId de MongoDB antes de consultar
 router.param('id', (req, res, next, id) => {
   if (isValidObjectId(id)) return next();
   const mensaje = `ID no válido: ${id}`;
@@ -44,7 +43,6 @@ router.param('id', (req, res, next, id) => {
   return res.status(400).json({ error: mensaje });
 });
 
-// 1. GET /api/avistamientos  (filtro opcional ?categoria=Ave)
 router.get('/', async (req, res) => {
   try {
     const filtro = {};
@@ -57,7 +55,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// GET /api/avistamientos/:id  (extra: consultar uno)
+
 router.get('/:id', async (req, res) => {
   try {
     const avistamiento = await Avistamiento.findById(req.params.id);
@@ -68,7 +66,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// 2. POST /api/avistamientos  (JSON desde Postman o form-urlencoded desde Handlebars)
+
 router.post('/', async (req, res) => {
   try {
     const { nombreComun, nombreCientifico, categoria, zona, estadoConservacion, investigador } = req.body ?? {};
@@ -84,7 +82,6 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Lógica compartida de actualización
 const actualizar = async (req, res) => {
   try {
     const datos = camposActualizables(req.body ?? {});
@@ -95,7 +92,7 @@ const actualizar = async (req, res) => {
     }
 
     const actualizado = await Avistamiento.findByIdAndUpdate(req.params.id, datos, {
-      returnDocument: 'after', // devuelve el documento ya actualizado
+      returnDocument: 'after',
       runValidators: true,
     });
 
@@ -111,7 +108,7 @@ const actualizar = async (req, res) => {
   }
 };
 
-// Lógica compartida de eliminación
+
 const eliminar = async (req, res) => {
   try {
     const eliminado = await Avistamiento.findByIdAndDelete(req.params.id);
@@ -128,11 +125,11 @@ const eliminar = async (req, res) => {
   }
 };
 
-// 3. PUT /api/avistamientos/:id  +  POST /api/avistamientos/update/:id (formularios)
+
 router.put('/:id', actualizar);
 router.post('/update/:id', actualizar);
 
-// 4. DELETE /api/avistamientos/:id  +  POST /api/avistamientos/delete/:id (botones)
+
 router.delete('/:id', eliminar);
 router.post('/delete/:id', eliminar);
 

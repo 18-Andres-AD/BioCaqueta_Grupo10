@@ -21,7 +21,7 @@
   {{/if}}
 
   <section class="card-bio p-4 p-md-5 mx-auto aparecer retraso-1" style="max-width: 820px;">
-    <!-- Ficha de la especie (solo lectura) -->
+    
     <div class="d-flex align-items-center gap-3 mb-4">
       <div class="avatar-especie" style="width:64px;height:64px;font-size:2rem;">{{iconoCategoria avistamiento.categoria}}</div>
       <div>
@@ -54,7 +54,7 @@
 
     <hr class="my-4 opacity-25">
 
-    <!-- Campos editables (RF-02.3: zona y estado de conservación) -->
+    
     <form action="/api/avistamientos/update/{{avistamiento._id}}" method="POST" class="row g-4">
       <div class="col-12">
         <div class="form-floating">

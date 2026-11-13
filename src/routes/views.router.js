@@ -4,13 +4,13 @@ const { CATEGORIAS, ESTADOS } = require('../models/Avistamiento');
 
 const router = Router();
 
-// 1. GET /  -> listado + formulario de registro
+
 router.get('/', async (req, res) => {
   try {
     const filtro = {};
     if (req.query.categoria) filtro.categoria = req.query.categoria;
 
-    // .lean() devuelve objetos planos que Handlebars puede leer
+   
     const avistamientos = await Avistamiento.find(filtro).sort({ fechaRegistro: -1 }).lean();
 
     res.render('home', {
@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// 2. GET /editar/:id  -> formulario precargado
+
 router.get('/editar/:id', async (req, res) => {
   try {
     const avistamiento = await Avistamiento.findById(req.params.id).lean();
