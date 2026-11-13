@@ -1,8 +1,8 @@
 <header class="hero">
-  <span class="flotante f1">{{{iconoCategoria avistamiento.categoria}}}</span>
-  <span class="flotante f3 anim-mecerse">{{{icono "hoja"}}}</span>
-  <span class="flotante f4">{{{icono "bosque"}}}</span>
-  <span class="flotante f5 anim-revolotear">{{{icono "mariposa"}}}</span>
+  <span class="flotante f1"><span class="ico-cat {{claseCategoria avistamiento.categoria}}"><i class="{{iconoCategoria avistamiento.categoria}} ico"></i></span></span>
+  <span class="flotante f3 anim-mecerse"><i class="mdi mdi-leaf ico"></i></span>
+  <span class="flotante f4"><i class="mdi mdi-forest ico"></i></span>
+  <span class="flotante f5 anim-revolotear"><i class="mdi mdi-butterfly ico"></i></span>
   <div class="container position-relative">
     <div class="aparecer">
       <a href="/" class="stat-pill text-white text-decoration-none mb-3"><i class="bi bi-arrow-left"></i> Volver al listado</a>
@@ -24,7 +24,7 @@
   <section class="card-bio contenedor-estrecho p-4 p-md-5 mx-auto aparecer retraso-1">
 
     <div class="d-flex align-items-center gap-3 mb-4">
-      <div class="avatar-especie avatar-grande {{claseCategoria avistamiento.categoria}}">{{{iconoCategoria avistamiento.categoria}}}</div>
+      <div class="avatar-especie avatar-grande {{claseCategoria avistamiento.categoria}}"><i class="{{iconoCategoria avistamiento.categoria}} ico"></i></div>
       <div>
         <h2 class="h4 mb-0">{{avistamiento.nombreComun}}</h2>
         <div class="fst-italic text-secondary">{{avistamiento.nombreCientifico}}</div>

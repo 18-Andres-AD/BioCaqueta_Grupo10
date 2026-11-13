@@ -47,7 +47,6 @@ src/
 ├── routes/
 │   ├── api.router.js       # API REST (JSON + formularios)
 │   └── views.router.js     # Rutas que renderizan vistas
-├── helpers/                # Helpers de Handlebars (fechas, estados, íconos SVG)
 ├── public/                 # Archivos estáticos servidos por express.static
 │   ├── css/styles.css
 │   └── js/main.js
