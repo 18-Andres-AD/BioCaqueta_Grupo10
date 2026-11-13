@@ -150,7 +150,7 @@ body {
 .tabla-bio tbody td { border: 0; padding: 1rem; vertical-align: middle; }
 .tabla-bio tbody td:first-child { border-radius: 14px 0 0 14px; }
 .tabla-bio tbody td:last-child { border-radius: 0 14px 14px 0; }
-.avatar-especie { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: var(--c-bg, var(--selva-100)); font-size: 1.45rem; flex-shrink: 0; transition: transform .25s; }
+.avatar-especie { width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; background: var(--c-bg, var(--selva-100)); color: var(--c, var(--selva-700)); font-size: 1.45rem; flex-shrink: 0; transition: transform .25s; }
 .avatar-especie.avatar-grande { width: 64px; height: 64px; font-size: 2.1rem; border-radius: 18px; }
 .tabla-bio tbody tr:hover .avatar-especie .ico { animation: var(--anim); }
 .badge-estado { padding: .45em .8em; border-radius: 999px; font-weight: 600; font-size: .78rem; }

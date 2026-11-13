@@ -1,9 +1,9 @@
-<!-- Cabecera -->
 <header class="hero">
-  <span class="flotante f1">🦜</span>
-  <span class="flotante f2">🐸</span>
-  <span class="flotante f3">🍃</span>
-  <span class="flotante f4">🌳</span>
+  <span class="flotante f1"><span class="ico-cat {{claseCategoria "Ave"}}"><i class="{{iconoCategoria "Ave"}} ico"></i></span></span>
+  <span class="flotante f2"><span class="ico-cat {{claseCategoria "Anfibio"}}"><i class="{{iconoCategoria "Anfibio"}} ico"></i></span></span>
+  <span class="flotante f3 anim-mecerse"><i class="mdi mdi-leaf ico"></i></span>
+  <span class="flotante f4"><i class="mdi mdi-forest ico"></i></span>
+  <span class="flotante f5 anim-revolotear"><i class="mdi mdi-butterfly ico"></i></span>
   <div class="container position-relative">
     <div class="aparecer">
       <span class="stat-pill mb-3"><i class="bi bi-geo-alt-fill"></i> Piedemonte Amazónico · Caquetá</span>
@@ -23,7 +23,6 @@
     </div>
   {{/if}}
 
-  
   <section class="card-bio p-4 p-md-5 mb-5 aparecer retraso-1">
     <div class="card-titulo mb-4">
       <div class="icono"><i class="bi bi-plus-lg"></i></div>
@@ -53,7 +52,7 @@
           {{#each categorias}}
             <div class="chip">
               <input type="radio" name="categoria" id="cat-{{@index}}" value="{{this}}" required>
-              <label for="cat-{{@index}}"><span class="emoji">{{iconoCategoria this}}</span>{{this}}</label>
+              <label for="cat-{{@index}}"><span class="ico-cat {{claseCategoria this}}"><i class="{{iconoCategoria this}} ico"></i></span>{{this}}</label>
             </div>
           {{/each}}
         </div>
@@ -65,10 +64,9 @@
           <label for="zona"><i class="bi bi-geo-alt me-1"></i> Zona *</label>
         </div>
         <datalist id="zonas">
-          <option value="Río Hacha">
-          <option value="El Caraño">
-          <option value="Serranía de Chiribiquete">
-          <option value="Cordillera Oriental">
+          {{#each zonas}}
+            <option value="{{this}}">
+          {{/each}}
         </datalist>
       </div>
       <div class="col-md-6">
@@ -84,12 +82,7 @@
           {{#each estados}}
             <div class="estado {{claseEstado this}}">
               <input type="radio" name="estadoConservacion" id="est-{{@index}}" value="{{this}}" {{#if @first}}checked{{/if}}>
-              <label for="est-{{@index}}">
-                {{#if (eq (claseEstado this) 'success')}}<i class="bi bi-shield-check"></i>{{/if}}
-                {{#if (eq (claseEstado this) 'warning')}}<i class="bi bi-exclamation-triangle"></i>{{/if}}
-                {{#if (eq (claseEstado this) 'danger')}}<i class="bi bi-exclamation-octagon"></i>{{/if}}
-                {{this}}
-              </label>
+              <label for="est-{{@index}}"><i class="bi {{iconoEstado this}}"></i> {{this}}</label>
             </div>
           {{/each}}
         </div>
@@ -104,7 +97,6 @@
     </form>
   </section>
 
-  
   <section class="aparecer retraso-2">
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-2 gap-3">
       <div class="card-titulo d-flex align-items-center gap-2">
@@ -112,10 +104,10 @@
         <span class="badge rounded-pill text-bg-success">{{avistamientos.length}}</span>
       </div>
       <form action="/" method="GET">
-        <select name="categoria" class="form-select filtro-select" onchange="this.form.submit()" aria-label="Filtrar por categoría">
-          <option value="">🔎 Todas las categorías</option>
+        <select name="categoria" class="form-select filtro-select" data-auto-submit aria-label="Filtrar por categoría">
+          <option value="">Todas las categorías</option>
           {{#each categorias}}
-            <option value="{{this}}" {{#if (eq this ../categoriaActual)}}selected{{/if}}>{{iconoCategoria this}} {{this}}</option>
+            <option value="{{this}}" {{#if (eq this ../categoriaActual)}}selected{{/if}}>{{this}}</option>
           {{/each}}
         </select>
       </form>
@@ -137,10 +129,10 @@
           </thead>
           <tbody>
             {{#each avistamientos}}
-              <tr class="fila-anim" style="animation-delay: calc({{@index}} * 70ms + 300ms)">
+              <tr>
                 <td>
                   <div class="d-flex align-items-center gap-3">
-                    <div class="avatar-especie">{{iconoCategoria categoria}}</div>
+                    <div class="avatar-especie {{claseCategoria categoria}}"><i class="{{iconoCategoria categoria}} ico"></i></div>
                     <div>
                       <div class="fw-semibold">{{nombreComun}}</div>
                       <small class="fst-italic text-secondary">{{nombreCientifico}}</small>
@@ -157,7 +149,7 @@
                     <i class="bi bi-pencil-square"></i>
                   </a>
                   <form action="/api/avistamientos/delete/{{_id}}" method="POST" class="d-inline"
-                        onsubmit="return confirm('¿Eliminar este avistamiento?');">
+                        data-confirmar="¿Eliminar el avistamiento de {{nombreComun}}?">
                     <button type="submit" class="btn btn-outline-danger btn-accion ms-1" title="Eliminar" aria-label="Eliminar">
                       <i class="bi bi-trash3"></i>
                     </button>
@@ -170,7 +162,7 @@
       </div>
     {{else}}
       <div class="card-bio vacio">
-        <div class="emoji mb-2">🔭</div>
+        <div class="vacio-icono mb-2"><i class="mdi mdi-binoculars ico"></i></div>
         <p class="mb-0">Aún no hay avistamientos registrados{{#if categoriaActual}} en esta categoría{{/if}}.</p>
       </div>
     {{/if}}
