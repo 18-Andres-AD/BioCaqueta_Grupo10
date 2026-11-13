@@ -7,7 +7,6 @@ const router = Router();
 const esFormulario = (req) =>
   req.headers['content-type']?.includes('application/x-www-form-urlencoded');
 
-// Traduce errores de Mongoose a códigos HTTP adecuados
 const manejarError = (req, res, error) => {
   let status = 500;
   let mensaje = 'Error interno del servidor';
@@ -28,7 +27,6 @@ const manejarError = (req, res, error) => {
   return res.status(status).json({ error: mensaje });
 };
 
-// Solo se permiten actualizar estos campos (RF-02.3)
 const camposActualizables = ({ estadoConservacion, zona }) => {
   const datos = {};
   if (estadoConservacion !== undefined && estadoConservacion !== '') datos.estadoConservacion = estadoConservacion;

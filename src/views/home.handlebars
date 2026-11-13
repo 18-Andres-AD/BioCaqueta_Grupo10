@@ -1,9 +1,9 @@
-<!-- Cabecera -->
 <header class="hero">
-  <span class="flotante f1">🦜</span>
-  <span class="flotante f2">🐸</span>
-  <span class="flotante f3">🍃</span>
-  <span class="flotante f4">🌳</span>
+  <span class="flotante f1">{{{iconoCategoria "Ave"}}}</span>
+  <span class="flotante f2">{{{iconoCategoria "Anfibio"}}}</span>
+  <span class="flotante f3 anim-mecerse">{{{icono "hoja"}}}</span>
+  <span class="flotante f4">{{{icono "bosque"}}}</span>
+  <span class="flotante f5 anim-revolotear">{{{icono "mariposa"}}}</span>
   <div class="container position-relative">
     <div class="aparecer">
       <span class="stat-pill mb-3"><i class="bi bi-geo-alt-fill"></i> Piedemonte Amazónico · Caquetá</span>
@@ -23,7 +23,6 @@
     </div>
   {{/if}}
 
-  <!-- Formulario de registro -->
   <section class="card-bio p-4 p-md-5 mb-5 aparecer retraso-1">
     <div class="card-titulo mb-4">
       <div class="icono"><i class="bi bi-plus-lg"></i></div>
@@ -53,7 +52,7 @@
           {{#each categorias}}
             <div class="chip">
               <input type="radio" name="categoria" id="cat-{{@index}}" value="{{this}}" required>
-              <label for="cat-{{@index}}"><span class="emoji">{{iconoCategoria this}}</span>{{this}}</label>
+              <label for="cat-{{@index}}">{{{iconoCategoria this}}}{{this}}</label>
             </div>
           {{/each}}
         </div>
@@ -104,7 +103,6 @@
     </form>
   </section>
 
-  <!-- Listado -->
   <section class="aparecer retraso-2">
     <div class="d-flex flex-wrap justify-content-between align-items-center mb-2 gap-3">
       <div class="card-titulo d-flex align-items-center gap-2">
@@ -113,9 +111,9 @@
       </div>
       <form action="/" method="GET">
         <select name="categoria" class="form-select filtro-select" onchange="this.form.submit()" aria-label="Filtrar por categoría">
-          <option value="">🔎 Todas las categorías</option>
+          <option value="">Todas las categorías</option>
           {{#each categorias}}
-            <option value="{{this}}" {{#if (eq this ../categoriaActual)}}selected{{/if}}>{{iconoCategoria this}} {{this}}</option>
+            <option value="{{this}}" {{#if (eq this ../categoriaActual)}}selected{{/if}}>{{this}}</option>
           {{/each}}
         </select>
       </form>
@@ -137,10 +135,10 @@
           </thead>
           <tbody>
             {{#each avistamientos}}
-              <tr class="fila-anim" style="animation-delay: calc({{@index}} * 70ms + 300ms)">
+              <tr>
                 <td>
                   <div class="d-flex align-items-center gap-3">
-                    <div class="avatar-especie">{{iconoCategoria categoria}}</div>
+                    <div class="avatar-especie {{claseCategoria categoria}}">{{{iconoCategoria categoria}}}</div>
                     <div>
                       <div class="fw-semibold">{{nombreComun}}</div>
                       <small class="fst-italic text-secondary">{{nombreCientifico}}</small>
@@ -170,7 +168,7 @@
       </div>
     {{else}}
       <div class="card-bio vacio">
-        <div class="emoji mb-2">🔭</div>
+        <div class="vacio-icono mb-2">{{{icono "binoculares"}}}</div>
         <p class="mb-0">Aún no hay avistamientos registrados{{#if categoriaActual}} en esta categoría{{/if}}.</p>
       </div>
     {{/if}}
